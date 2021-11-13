@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Information</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'javascript/script.js' %}"></script>
+</head>
+<body>
+    <div id="wrapper">
+        <a id="go_back" href="/shows">Go Back</a>
+        <h1>TV Show {{id}}</h1>
+        <p><b>Title: </b> {{title}}</p>
+        <p><b>Network: </b> {{network}}</p>
+        <p><b>Release Date: </b> {{release_date}}</p>
+        <p><b>Description: </b> {{description}}</p>
+        <p><b>Last Updated: </b> {{updated_at}}</p>
+        <span>
+            <a href="/shows/{{id}}/edit">Edit</a>
+            |
+            <a href="{{id}}/destroy">Delete</a>
+        </span>
+    </div>
+</body>
+</html>
