@@ -38,7 +38,6 @@ def display_show_information(request,show_id):
 
 def display_form_to_update_show_information(request,show_id):
     show=Show.objects.get(id=show_id)
-
     context = {
         'id':show.id,
         'title':show.title,
