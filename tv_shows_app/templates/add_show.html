@@ -14,28 +14,37 @@
         <a id="go_back" href="/shows">Go Back</a>
         <div id="center">
             <h1>Add a New Show</h1>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li {% if message.tags %} class = "{{ message.tags }}"{% endif %}>
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             <form action="/shows/create" method="post">
                 {% csrf_token %}
                 <label for="title">Title</label>
                 <br>
-                <input type="text" id="title" name="title">
+                <input type="text" id="title" name="title" value="{{title}}">
                 <br>
                 <div id="long">
                     <div id=short>
                         <label for="network">Network</label>
                         <br>
-                        <input type="text" id="network" name="network">
+                        <input type="text" id="network" name="network" value="{{network}}">
                     </div>
                     <div id=short>
                         <label for="release_date">Release Date</label>
                         <br>
-                        <input type="date" id="release_date" name="release_date">
+                        <input type="date" id="release_date" name="release_date" value="{{release_date}}">
                     </div>
                 </div>
                 <br>
                 <label for="description">Description</label>
                 <br>
-                <textarea name="description" id="description" cols="30" rows="10">  </textarea>
+                <textarea name="description" id="description" cols="30" rows="10">{{description}}</textarea>
                 <br>
                 <div id="submit">
                     <input type="submit" value="create">
