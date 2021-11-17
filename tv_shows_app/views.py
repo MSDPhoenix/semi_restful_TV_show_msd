@@ -15,19 +15,24 @@ def display_form_to_add_tv_show(request):
     return render(request,'add_show.html')
 
 def add_form_data_to_database(request):
+    title=request.POST['title']
+    network=request.POST['network']
+    release_date=request.POST['release_date']
+    description=request.POST['description']
     errors = Show.objects.basic_validator(request.POST)
     if len(errors) > 0:
         for key,value in errors.items():
             messages.error(request,value)
+        request.session['title'] = title
+        request.session['network'] = network
+        request.session['release_date'] = release_date
+        request.session['description'] = description
         return redirect('/shows/new')
     else:
-        title=request.POST['title']
-        network=request.POST['network']
-        release_date=request.POST['release_date']
-        description=request.POST['description']
+        request.session.flush()
         Show.objects.create(title=title,network=network,release_date=release_date,description=description)
         show_id = Show.objects.get(title=title,network=network,release_date=release_date,description=description).id    
-    return redirect('/shows/'+str(show_id))
+        return redirect('/shows/'+str(show_id))
 
 def display_show_information(request,show_id):
     show=Show.objects.get(id=show_id)
@@ -63,9 +68,15 @@ def update_form_information_in_database(request,show_id):
     show.title=request.POST['title']
     show.network=request.POST['network']
     show.description=request.POST['description']
-    # show.release_date=request.POST['release_date']
+    show.release_date=request.POST['release_date']
     show.save()
-    return redirect('/shows/'+str(show_id))
+    errors = Show.objects.basic_validator(request.POST)
+    if len(errors) > 0:
+        for key,value in errors.items():
+            messages.error(request,value)
+        return redirect('/shows/'+str(show_id)+'/edit')
+    else:
+        return redirect('/shows/'+str(show_id))
 
 def delete_show_information_from_database(request,show_id):
     Show.objects.get(id=show_id).delete()

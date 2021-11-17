@@ -17,7 +17,7 @@
                 {% if messages %}
                     <ul class="messages">
                         {% for message in messages %}
-                            <li {% if message.tags %} class = "{{ message.tags }}"{% endif %}>
+                            <li {% if message.tags %} class = "{{ message.tags }}" {% endif %}>
                                 {{ message }}
                             </li>
                         {% endfor %}
@@ -25,26 +25,27 @@
                 {% endif %}
             <form action="/shows/create" method="post">
                 {% csrf_token %}
+                <input type="hidden" id="hidden" name="hidden" value="new_show">
                 <label for="title">Title</label>
                 <br>
-                <input type="text" id="title" name="title" value="{{title}}">
+                <input type="text" id="title" name="title" value="{{request.session.title}}">
                 <br>
                 <div id="long">
                     <div id=short>
                         <label for="network">Network</label>
                         <br>
-                        <input type="text" id="network" name="network" value="{{network}}">
+                        <input type="text" id="network" name="network" value="{{request.session.network}}">
                     </div>
                     <div id=short>
                         <label for="release_date">Release Date</label>
                         <br>
-                        <input type="date" id="release_date" name="release_date" value="{{release_date}}">
+                        <input type="date" id="release_date" name="release_date" value="{{request.session.release_date}}">
                     </div>
                 </div>
                 <br>
                 <label for="description">Description</label>
                 <br>
-                <textarea name="description" id="description" cols="30" rows="10">{{description}}</textarea>
+                <textarea name="description" id="description" cols="30" rows="10">{{request.session.description}}</textarea>
                 <br>
                 <div id="submit">
                     <input type="submit" value="create">

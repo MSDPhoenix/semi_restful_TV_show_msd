@@ -14,8 +14,18 @@
         <a id="go_back" href="/shows">Go Back</a>
         <div id="center">
             <h1>Edit Show {{id}}</h1>
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li {% if message.tags %} class = "{{ message.tags }}" {% endif %}>
+                                {{ message }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
             <form action="/shows/{{id}}/update" method="post">
                 {% csrf_token %}
+                <input type="hidden" id="hidden" name="hidden" value="edit_show">
                 <label for="title">Title</label>
                 <br>
                 <input type="text" id="title" name="title" value="{{title}}">
